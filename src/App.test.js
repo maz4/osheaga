@@ -163,7 +163,7 @@ describe('render bus search app', () => {
 
   it('should show erorr messages if no buses found', async() => {
     await wait();
-    expect(queryByText(/sorry\s/i)).toBeInTheDocument();
+    expect(queryByText(/sorry no buses/i)).toBeInTheDocument();
   });
 
 });
