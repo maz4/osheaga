@@ -143,15 +143,22 @@ jest.mock('axios', () => {
 });
 
 describe('render bus search app', () => {
-  const {queryByText, getByText, queryAllByLabelText} = render(<App />);
+  const {queryByText, getByText, queryByLabelText, getByLabelText} = render(<App />);
 
   it('should do the search form populated fileds and render the results', async () => {
 
-    expect(queryAllByLabelText(/departure/i)).toBe('New York');
-    expect(queryAllByLabelText(/destination/i)).toBe('Montréal');
-    expect(queryAllByLabelText(/date/i)).toBe('02/06/2020');
-    expect(queryAllByLabelText(/return/i)).toBeInTheDocument();
-    expect(queryAllByLabelText(/destination/i)).toBeInTheDocument();
+    // expect(queryByLabelText(/departure/i)).toBe('New York');
+    // expect(queryByLabelText(/destination/i)).toBe('Montréal');
+    expect(queryByLabelText(/departure/i)).toBeInTheDocument();
+    expect(queryByLabelText(/destination/i)).toBeInTheDocument();
+    expect(queryByLabelText(/date/i)).toBeInTheDocument();
+    expect(queryByLabelText(/return/i)).toBeInTheDocument();
+
+    fireEvent.change(getByLabelText(/departure/i), {target: {value: 'New York'}});
+    expect(queryByLabelText(/departure/i).value).toBe('New York');
+
+    fireEvent.change(getByLabelText(/destination/i), {target: {value: 'Montréal'}});
+    expect(queryByLabelText(/destination/i).value).toBe('Montréal');
 
     fireEvent.click(/search/i)
 
