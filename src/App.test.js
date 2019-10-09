@@ -4,141 +4,142 @@ import {render, fireEvent, waitForElement, wait} from '@testing-library/react';
 
 import App from './App';
 
+const config = {
+  method: 'GET',
+  headers: {
+    'Accept' : 'application/test; version=0; profile=https://test.com/',
+    'X-Busbud-Token' : 'test'
+  }
+}
+
 jest.mock('axios', () => {
-  return {
-    get: jest.fn(() => {
-      return {
-        "origin_city_id": "375dd5879001acbd84a4683dedf9eed1",
-        "destination_city_id": "375dd5879001acbd84a4683ded9c875b",
-        "cities": [
+return {
+    get: jest.fn(() => Promise.resolve({
+      data: {
+        origin_city_id: "375dd587-9001-acbd-84a4-683deda84183",
+        destination_city_id: "375dd587-9001-acbd-84a4-683dedfb933e",
+        cities: [
           {
-            "id": "375dd5879001acbd84a4683deda84183",
-            "locale": "en",
-            "region_id": 6417,
-            "name": "New York",
-            "geohash": "dr5reg",
-            "timezone": "America/New_York",
-            "image_url": "/images/promos/city-blocks/new-york.jpg",
-            "full_name": "New York, New York, United States",
-          }
-        ],
-        "locations": [
-          {
-            "id": 3970,
-            "city_id": "375dd5879001acbd84a4683dedfb933e",
-            "name": "Métro Bonaventure Bus Station",
-            "address": [
-              "997 Rue St-Antoine Ouest",
-              "Montreal, QC H3C 1A6"
-            ],
-            "type": "transit_station",
-            "geohash": "f25dvfzcz"
-          }
-      
-        ],
-        "operators": [
-          {
-            "id": "bfc27cd544ca49c18d000f2bc00c58c0",
-            "source_id": 155,
-            "profile_id": 111,
-            "name": "Greyhound",
-            "url": null,
-            "logo_url": "https://busbud-pubweb-assets-staging.global.ssl.fastly.net/images-service/operator-logos/greyhound.png?hash=1{&height,width}",
-            "display_name": "Greyhound",
-            "sellable": true,
-            "amenities": {
-              "classes": {
-                "Normal": {
-                  "display_name": "Economy",
-                  "wifi": true,
-                  "toilet": true,
-                  "ac": true,
-                  "food": false,
-                  "refreshment": false,
-                  "power_outlets": true,
-                  "tv": false,
-                  "bus_attendant": false,
-                  "leg_room": false
-                },
-                "Economy": {
-                  "display_name": "Economy",
-                  "wifi": true,
-                  "toilet": true,
-                  "ac": true,
-                  "food": false,
-                  "refreshment": false,
-                  "power_outlets": true,
-                  "tv": false,
-                  "bus_attendant": false,
-                  "leg_room": false
-                }
+            id: "375dd587-9001-acbd-84a4-683deda84183",
+            region_id: 6417,
+            name: "New York",
+            lat: 40.71427,
+            lon: -74.00597,
+            geohash: "dr5reg",
+            timezone: "America/New_York",
+            image_url:
+              "https://busbud.imgix.net/city-hires/1474307214322-NewYork,NewYork,UnitedStates.jpg?h={height}&w={width}&auto=format,compress",
+            hero_image_url:
+              "https://busbud.imgix.net/city-heroes/newyork.jpg?h={height}&w={width}&auto=format",
+            legacy_url_form: "NewYork,NewYork,UnitedStates",
+            country_code2: "US",
+            full_name: "New York, New York, United States",
+            short_name: "New York, NY, USA",
+            locale: "en",
+            region: {
+              id: 6417,
+              region_code: "NY",
+              country_code2: "US",
+              name: "New York",
+              short_name: "NY",
+              locale: "en",
+              country: {
+                code2: "US",
+                code3: "USA",
+                name: "United States",
+                short_name: "USA",
+                continent: "NA",
+                default_locale: "en",
+                default_currency: "USD",
+                population: 310232863,
+                locale: "en"
               }
-            },
-            "source": "greyhound_us",
-            "referral_deal": false,
-            "display_url": null,
-            "fraud_check": "iovation",
-            "terms": {
-              "refund": false,
-              "exchange": true,
-              "bag_allowed": true,
-              "piece_of_id": false,
-              "boarding_requirement": "printed_tkt",
-              "extra_bag_policy": true,
-              "use_new_ticket": false,
-              "exchange_cutoff": 24,
-              "nb_checked_bags": 1,
-              "kg_by_bag": 25,
-              "nb_carry_on": 1,
-              "extra_bag_cost": 1500
+            }
+          },
+          {
+            id: "375dd587-9001-acbd-84a4-683dedfb933e",
+            region_id: 3361,
+            name: "Montreal",
+            lat: 45.50884,
+            lon: -73.58781,
+            geohash: "f25dvk",
+            timezone: "America/Montreal",
+            image_url:
+              "https://busbud.imgix.net/city-hires/1474307214311-Montreal,Quebec,Canada.jpg?h={height}&w={width}&auto=format,compress",
+            hero_image_url:
+              "https://busbud.imgix.net/city-heroes/montreal.jpg?h={height}&w={width}&auto=format",
+            legacy_url_form: "Montreal,Quebec,Canada",
+            country_code2: "CA",
+            full_name: "Montreal, Quebec, Canada",
+            short_name: "Montreal, QC, Canada",
+            locale: "en",
+            region: {
+              id: 3361,
+              region_code: "QC",
+              country_code2: "CA",
+              name: "Quebec",
+              short_name: "QC",
+              locale: "en",
+              country: {
+                code2: "CA",
+                code3: "CAN",
+                name: "Canada",
+                short_name: "Canada",
+                continent: "NA",
+                default_locale: "en",
+                default_currency: "CAD",
+                population: 33679000,
+                locale: "en"
+              }
             }
           }
         ],
-        "departures": [
+        locations: [
           {
-            "id": "7c5dd26a",
-            "source_id": 155,
-            "checkout_type": "new",
-            "operator_id": "bfc27cd544ca49c18d000f2bc00c58c0",
-            "origin_location_id": 1942,
-            "destination_location_id": 1938,
-            "class": "Economy",
-            "class_name": "Economy",
-            "amenities": {
-              "display_name": "Economy",
-              "wifi": true,
-              "toilet": true,
-              "ac": true,
-              "food": false,
-              "refreshment": false,
-              "power_outlets": true,
-              "tv": false,
-              "bus_attendant": false,
-              "leg_room": false
-            },
-            "available_seats": 55,
-            "prices": {
-              "total": 5200,
-              "breakdown": {
-                "base": 5200
-              },
-              "categories": {},
-              "discounted": false
-            },
-            "ticket_types": [
-              "print"
+            id: 5178,
+            city_id: "375dd587-9001-acbd-84a4-683deda84183",
+            name: "New York City",
+            address: [],
+            type: "other",
+            lat: null,
+            lon: null,
+            geohash: null
+          },
+          {
+            id: 6933,
+            city_id: "375dd587-9001-acbd-84a4-683deda84183",
+            name: "31st St & 8th Ave",
+            address: [
+              "349 W 31st St (between 8th & 9th Avenue)",
+              "New York, NY 10001"
             ],
-            "departure_timezone": "America/New_York",
-            "arrival_timezone": "America/Montreal",
-            "departure_time": "2016-01-14T00:01:00",
-            "arrival_time": "2016-01-14T07:55:00"
-          }
+            type: "bus_stop",
+            lat: 40.750996,
+            lon: -73.996178,
+            geohash: "dr5ru4mxu"
+          },
+          {
+            id: 50572,
+            city_id: "375dd587-9001-acbd-84a4-683deda84183",
+            name: "34th St & 6th Ave",
+            address: ["22 W 34th St", "New York", "NY 10001 USA"],
+            type: "bus_stop",
+            lat: 40.749046,
+            lon: -73.986303,
+            geohash: "dr5ru6hu6"
+          }, //
+          
         ],
-        "complete": false,    // <!-- determines if all departures have been received from all relevant bus companies
-        "ttl": 900,
-        "is_valid_route": true
+        operators: [],
+        departures: [],
+        search_request_ids: [
+          "201910090612f9a80f7a18376008801d7ff5c7a11328c06b349cbc700e303249dedc918c60cf"
+        ],
+        complete: false,
+        ttl: 600,
+        is_valid_route: true
       }
-    })
+       }))
   };
 });
 
@@ -147,8 +148,6 @@ describe('render bus search app', () => {
 
   it('should do the search form populated fileds and render the results', async () => {
 
-    // expect(queryByLabelText(/departure/i)).toBe('New York');
-    // expect(queryByLabelText(/destination/i)).toBe('Montréal');
     expect(queryByLabelText(/departure/i)).toBeInTheDocument();
     expect(queryByLabelText(/destination/i)).toBeInTheDocument();
     expect(queryByLabelText(/date/i)).toBeInTheDocument();

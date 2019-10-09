@@ -1,10 +1,28 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+
+const config = {
+  headers: {
+    'Accept' : 'application/vnd.busbud+json; version=2; profile=https://schema.busbud.com/v2/',
+    'X-Busbud-Token' : 'PARTNER_AHm3M6clSAOoyJg4KyCg7w'
+  }
+}
+
+const newYorkGeohash = 'dr5reg';
+const montrealGeohash = 'f25dvk';
+const onboundDate = '2020-08-02'
 
 function SearchForm(){
-
+  const today = new Date();
+  const dateString = `${today.getUTCFullYear()}-${today.getUTCMonth() + 1}-${today.getUTCDay()}`;
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
-  const [date, setDate]=useState('');
+  const [date, setDate] = useState(dateString);
+
+  useEffect( () => {
+    const url = `https://napi.busbud.com/x-departures/${newYorkGeohash}/${montrealGeohash}/${onboundDate}`;
+    axios.get(url, config);
+  })
 
   function departurenHandler(event){
     setDeparture(event.target.value);
@@ -17,20 +35,25 @@ function SearchForm(){
   function dateHandler(event){
     setDate(event.target.value);
   }
+
+  function submitHandler(event){
+    event.preventDefault();
+  }
+
   return(
     <form>
-      <label for="departure">Departure</label>
+      <label htmlFor="departure">Departure</label>
       <input type="text" id="departure" value={departure} onChange={departurenHandler} />
 
-      <label for="destination">Destination</label>
+      <label htmlFor="destination">Destination</label>
       <input type="text" id="destination" value={destination} onChange={destinationHandler} />
 
-      <label for="date">Date</label>
+      <label htmlFor="date">Date</label>
       <input type="date" id="date" value={date} onChange={dateHandler}/>
 
-      <label for="return">Return</label>
+      <label htmlFor="return">Return</label>
       <input type="checkbox" id="return" />
-      <button>Search</button>
+      <button onClick={submitHandler}>Search</button>
     </form>
   );
 }
