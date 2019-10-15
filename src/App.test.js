@@ -1,8 +1,12 @@
 import React from 'react';
 import {render, fireEvent, waitForElement, wait} from '@testing-library/react';
-// import axios from 'axios';
+import axiosMock from 'axios';
+import Root from './Root';
 
-import App from './App';
+
+afterEach( () => {
+  axiosMock.get.mockClear();
+})
 
 const config = {
   method: 'GET',
@@ -144,7 +148,7 @@ return {
 });
 
 describe('render bus search app', () => {
-  const {queryByText, getByText, queryByLabelText, getByLabelText} = render(<App />);
+  const {queryByText, queryAllByText, getByText, queryByLabelText, getByLabelText} = render(<Root />);
 
   it('should do the search form populated fileds and render the results', async () => {
 
@@ -159,15 +163,14 @@ describe('render bus search app', () => {
     fireEvent.change(getByLabelText(/destination/i), {target: {value: 'Montréal'}});
     expect(queryByLabelText(/destination/i).value).toBe('Montréal');
 
-    fireEvent.click(/search/i)
+    await waitForElement(() => getByText('Departure from:'));
 
-    await waitForElement(getByText('Search Result'));
-
-    expect(queryByText(/select/i)).toHaveLength(1);
+    expect(queryAllByText(/select/i)).toHaveLength(1);
 
   });
 
-  it('should show erorr messages if no buses found', async() => {
+  it.skip('should show erorr messages if no buses found', async() => {
+    axiosMock.get.mockRejectedValueOnce({data: {error: 'test error'}});
     await wait();
     expect(queryByText(/sorry no buses/i)).toBeInTheDocument();
   });
