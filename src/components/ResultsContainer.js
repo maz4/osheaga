@@ -2,6 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const ResultsContainer = (props) => {
+
+  function formatPrice(price){
+    const strPrice = price.toString();
+    return + strPrice.slice(0, (strPrice.length - 2)) + '.' +strPrice.slice(-2);
+  }
+
+  function formatTime(date){
+    const newTime = new Date(date);
+    return newTime.getHours() + ':' + (newTime.getMinutes() < 10 ? '0' : '') + newTime.getMinutes();
+  }
+
+  function formatDate(date){
+    const newDate = new Date(date);
+    return newDate.getFullYear() + '-' + (newDate.getUTCMonth()< 10 ? '0' : '') + newDate.getUTCMonth() + '-' + newDate.getUTCDate() ;
+  }
+
   if(!props.busData) {
     return <p>Loading...</p>
   }
@@ -11,22 +27,19 @@ const ResultsContainer = (props) => {
 
   return (
     <ul>
-      {props.busData.locations.map( location => (
-        <li key={location.id}>
-          <p>Departure city: {departureCity[0].name}</p>
+      {props.busData.departures.map( departure => (
+        <li key={departure.id}>
+          <p>Departure: {departureCity[0].name} - {props.busData.locations.filter(elem => {
+            return elem.id === departure.origin_location_id
+          })[0].address[0]}</p>
           <p>Destination: {destinationCity[0].name}</p>
-          <p>Departure place: {location.name}</p>
-          <p>Address: {location.address}</p>
+          <p>Price: ${formatPrice(departure.prices.total)}</p>
+          <p>Departure Date: {formatDate(departure.departure_time)}</p> 
+          <p>Departure Time: {formatTime(departure.departure_time)}</p>
+          <p>Arrival Time: {formatTime(departure.arrival_time)}</p>
+          <button>Select</button>
         </li>
       ))}
-
-      <li>
-        <h2>Departure from:</h2>
-        <p>New York</p>
-        <h2>Destination:</h2>
-        <p>Montréal</p>
-        <button>Select</button>
-      </li>
     </ul>
   );
 };

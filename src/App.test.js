@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent, waitForElement, wait} from '@testing-library/react';
+import {render, fireEvent, wait, waitForElement} from '@testing-library/react';
 import axiosMock from 'axios';
 import Root from './Root';
 
@@ -100,7 +100,7 @@ return {
         ],
         locations: [
           {
-            id: 5178,
+            id: 1111,
             city_id: "375dd587-9001-acbd-84a4-683deda84183",
             name: "New York City",
             address: [],
@@ -110,7 +110,7 @@ return {
             geohash: null
           },
           {
-            id: 6933,
+            id: 2222,
             city_id: "375dd587-9001-acbd-84a4-683deda84183",
             name: "31st St & 8th Ave",
             address: [
@@ -123,7 +123,7 @@ return {
             geohash: "dr5ru4mxu"
           },
           {
-            id: 50572,
+            id: 3333,
             city_id: "375dd587-9001-acbd-84a4-683deda84183",
             name: "34th St & 6th Ave",
             address: ["22 W 34th St", "New York", "NY 10001 USA"],
@@ -135,7 +135,35 @@ return {
           
         ],
         operators: [],
-        departures: [],
+        departures: [
+          {
+            id: "LongNumberAndLEttersID1",
+            origin_location_id: 1111,
+            prices: {
+              total: 111
+            },
+            departure_time: "2020-08-02T13:00:00",
+            arrival_time: "2020-08-02T14:00:00"
+          },
+          {
+            id: "LongNumberAndLEttersID2",
+            origin_location_id: 2222,
+            prices: {
+              total: 2222
+            },
+            departure_time: "2020-08-02T15:00:00",
+            arrival_time: "2020-08-02T16:00:00"
+          },
+          {
+            id: "LongNumberAndLEttersID3",
+            origin_location_id: 3333,
+            prices: {
+              total: 3333
+            },
+            departure_time: "2020-11-12T17:30:00",
+            arrival_time: "2020-11-12T18:30:00"
+          }
+        ],
         search_request_ids: [
           "201910090612f9a80f7a18376008801d7ff5c7a11328c06b349cbc700e303249dedc918c60cf"
         ],
@@ -148,7 +176,7 @@ return {
 });
 
 describe('render bus search app', () => {
-  const {queryByText, queryAllByText, getByText, queryByLabelText, getByLabelText} = render(<Root />);
+  const {queryByText, queryAllByText, queryByLabelText, getByLabelText} = render(<Root />);
 
   it('should do the search form populated fileds and render the results', async () => {
 
@@ -163,9 +191,9 @@ describe('render bus search app', () => {
     fireEvent.change(getByLabelText(/destination/i), {target: {value: 'Montréal'}});
     expect(queryByLabelText(/destination/i).value).toBe('Montréal');
 
-    await waitForElement(() => getByText('Departure from:'));
+    // await wait(() => getByText('Price:'));
 
-    expect(queryAllByText(/select/i)).toHaveLength(1);
+    expect(queryAllByText(/select/i)).toHaveLength(3);
 
   });
 
