@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 const ResultsContainer = (props) => {
 
   function formatPrice(price){
-    const strPrice = price.toString();
-    return + strPrice.slice(0, (strPrice.length - 2)) + '.' +strPrice.slice(-2);
+    return (price/100).toFixed(2)
   }
 
   function formatTime(date){
@@ -15,7 +14,10 @@ const ResultsContainer = (props) => {
 
   function formatDate(date){
     const newDate = new Date(date);
-    return newDate.getFullYear() + '-' + (newDate.getUTCMonth()< 10 ? '0' : '') + newDate.getUTCMonth() + '-' + newDate.getUTCDate() ;
+    const day =  (newDate.getUTCDay() < 10 ? '0' : '') + newDate.getUTCDate();
+    const month = (newDate.getUTCMonth()< 10 ? '0' : '') + newDate.getUTCMonth();
+    const year = newDate.getFullYear();
+    return `${year}-${month}-${day}`;
   }
 
   if(!props.busData) {
@@ -44,7 +46,6 @@ const ResultsContainer = (props) => {
   );
 };
 
-// const mapStateToProps = state => console.log(state)
 const mapStateToProps = state => ({
   busData: state.busData
 })

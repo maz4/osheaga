@@ -176,9 +176,9 @@ return {
 });
 
 describe('render bus search app', () => {
-  const {queryByText, queryAllByText, queryByLabelText, getByLabelText} = render(<Root />);
+  const {getByText, queryByText, queryAllByText, queryByLabelText, getByLabelText, debug} = render(<Root />);
 
-  it('should do the search form populated fileds and render the results', async () => {
+  it('should do the search for sudo populated fileds and render the results', async () => {
 
     expect(queryByLabelText(/departure/i)).toBeInTheDocument();
     expect(queryByLabelText(/destination/i)).toBeInTheDocument();
@@ -191,13 +191,11 @@ describe('render bus search app', () => {
     fireEvent.change(getByLabelText(/destination/i), {target: {value: 'Montréal'}});
     expect(queryByLabelText(/destination/i).value).toBe('Montréal');
 
-    // await wait(() => getByText('Price:'));
-
-    expect(queryAllByText(/select/i)).toHaveLength(3);
+    await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
 
   });
 
-  it.skip('should show erorr messages if no buses found', async() => {
+  it.skip('should show erorr messages if no buses found', async () => {
     axiosMock.get.mockRejectedValueOnce({data: {error: 'test error'}});
     await wait();
     expect(queryByText(/sorry no buses/i)).toBeInTheDocument();

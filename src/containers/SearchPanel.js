@@ -15,14 +15,12 @@ const SearchPanel = (props) => {
   const montrealGeohash = 'f25dvk';
   const onboundDate = '2020-08-02';
 
-  const today = new Date();
-  const dateString = `${today.getUTCFullYear()}-${today.getUTCMonth() + 1}-${today.getUTCDay()}`;
-  const [departure, setDeparture] = useState('');
-  const [destination, setDestination] = useState('');
-  const [date, setDate] = useState(dateString);
+  const [departure, setDeparture] = useState('New York');
+  const [destination, setDestination] = useState('Montréal');
+  const [date, setDate] = useState(onboundDate);
 
   useEffect( () => {
-    const url = `https://napi.busbud.com/x-departures/${newYorkGeohash}/${montrealGeohash}/${onboundDate}`;
+    const url = `https://napi.busbud.com/x-departures/${newYorkGeohash}/${montrealGeohash}/${date}`;
     axios.get(url, config)
       .then( reposnse => {
         props.saveData(reposnse.data);
@@ -49,7 +47,7 @@ const SearchPanel = (props) => {
   }
 
   return(
-    <form>
+    <form url="" >
       <label htmlFor="departure">Departure</label>
       <input type="text" id="departure" value={departure} onChange={departurenHandler} />
 
