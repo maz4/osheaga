@@ -1,8 +1,7 @@
 import React from 'react';
-import {render, fireEvent, wait, waitForElement} from '@testing-library/react';
+import {render, fireEvent, wait } from '@testing-library/react';
 import axiosMock from 'axios';
 import Root from './Root';
-
 
 afterEach( () => {
   axiosMock.get.mockClear();
@@ -176,7 +175,7 @@ return {
 });
 
 describe('render bus search app', () => {
-  const {getByText, queryByText, queryAllByText, queryByLabelText, getByLabelText, debug} = render(<Root />);
+  const {queryAllByText, queryByLabelText, getByLabelText} = render(<Root />);
 
   it('should do the search for sudo populated fileds and render the results', async () => {
 
@@ -195,10 +194,11 @@ describe('render bus search app', () => {
 
   });
 
-  it.skip('should show erorr messages if no buses found', async () => {
+  it('should show erorr messages if no buses found', async () => {
     axiosMock.get.mockRejectedValueOnce({data: {error: 'test error'}});
-    await wait();
-    expect(queryByText(/sorry no buses/i)).toBeInTheDocument();
+    const {queryByText} = render(<Root />);
+
+    await wait( () => expect(queryByText(/ups something went wrong please refresh the page/i)).toBeInTheDocument());
   });
 
 });

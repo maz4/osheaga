@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux'
-import { saveBusData } from '../actions/actions';
+import { connect } from 'react-redux';
+import { saveBusData, setFetchError } from '../actions/actions';
 
 const SearchPanel = (props) => {
   const config = {
@@ -67,7 +67,7 @@ const SearchPanel = (props) => {
 const mapDispatchToProps = dispatch => {
   return {
     saveData: (data) => dispatch(saveBusData(data)),
-    setError: (error) => dispatch()
+    setError: (error) => dispatch(setFetchError(error))
   };
 };
 
