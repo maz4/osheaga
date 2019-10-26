@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { saveBusData, setFetchError } from '../actions/actions';
+import querystring from 'querystring'
 
 const SearchPanel = (props) => {
   const config = {
@@ -18,9 +19,17 @@ const SearchPanel = (props) => {
   const [departure, setDeparture] = useState('New York');
   const [destination, setDestination] = useState('Montréal');
   const [date, setDate] = useState(onboundDate);
+  const [adults, setAdults] = useState(2);
+  const [children , setChildren] = useState(0);
+  const [seniors, setSeniors] = useState(0);
 
   useEffect( () => {
-    const url = `https://napi.busbud.com/x-departures/${newYorkGeohash}/${montrealGeohash}/${date}`;
+    const data = {
+      adults: adults,
+      children: children,
+      seniors: seniors
+    }
+    const url = `https://napi.busbud.com/x-departures/${newYorkGeohash}/${montrealGeohash}/${date}?${querystring.stringify(data)}`;
     axios.get(url, config)
       .then( reposnse => {
         props.saveData(reposnse.data);
@@ -42,6 +51,18 @@ const SearchPanel = (props) => {
     setDate(event.target.value);
   }
 
+  function adultsHandler(event) {
+    setAdults(parseInt(event.target.value));
+  }
+
+  function chidlrenHandler(event){
+    setChildren(parseInt(event.target.value))
+  }
+
+  function seniorHandler(event){
+    setSeniors(parseInt(event.target.value));
+  }
+
   function submitHandler(event){
     event.preventDefault();
   }
@@ -59,6 +80,19 @@ const SearchPanel = (props) => {
 
       <label htmlFor="return">Return</label>
       <input type="checkbox" id="return" />
+
+      <div>
+        <p>Passangers</p>
+        
+        <label htmlFor="adults">Adults</label>
+        <input type="number" id="adults" value={adults} onChange={adultsHandler}  />
+
+        <label htmlFor="children">Children</label>
+        <input type="number" id="children" value={children} onChange={chidlrenHandler} />
+
+        <label htmlFor="seniors">Senior</label>
+        <input type="number" id="seniot" value={seniors} onChange={seniorHandler} />
+      </div>
       <button onClick={submitHandler}>Search</button>
     </form>
   );
