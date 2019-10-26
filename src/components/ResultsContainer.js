@@ -20,7 +20,7 @@ const ResultsContainer = (props) => {
     return `${year}-${month}-${day}`;
   }
 
-  if(!props.busData) {
+  if(props.busData.length === 0) {
     return <p>Loading...</p>
   }
 

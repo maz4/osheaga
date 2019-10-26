@@ -1,5 +1,5 @@
 const store = {
-  busData: null,
+  busData: [],
   error: false,
   errorData: null
 };

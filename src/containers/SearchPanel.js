@@ -1,16 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { saveBusData, setFetchError } from '../actions/actions';
+import { fetchData } from '../actions/actions';
 import querystring from 'querystring'
 
 const SearchPanel = (props) => {
-  const config = {
-    headers: {
-      'Accept' : 'application/vnd.busbud+json; version=2; profile=https://schema.busbud.com/v2/',
-      'X-Busbud-Token' : 'PARTNER_AHm3M6clSAOoyJg4KyCg7w'
-    }
-  };
   
   const newYorkGeohash = 'dr5reg';
   const montrealGeohash = 'f25dvk';
@@ -27,17 +20,11 @@ const SearchPanel = (props) => {
     const data = {
       adults: adults,
       children: children,
-      seniors: seniors
+      seniors: seniors,
     }
-    const url = `https://napi.busbud.com/x-departures/${newYorkGeohash}/${montrealGeohash}/${date}?${querystring.stringify(data)}`;
-    axios.get(url, config)
-      .then( reposnse => {
-        props.saveData(reposnse.data);
-      })
-      .catch( error => {
-        props.setError(error);
-      });
-  })
+    const params = `${newYorkGeohash}/${montrealGeohash}/${date}`;
+    props.fetchData(params, data)
+  }, [])
 
   function departurenHandler(event){
     setDeparture(event.target.value);
@@ -100,9 +87,14 @@ const SearchPanel = (props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveData: (data) => dispatch(saveBusData(data)),
-    setError: (error) => dispatch(setFetchError(error))
+    fetchData: (params) => dispatch(fetchData(params))
   };
 };
 
-export default connect(null, mapDispatchToProps)(SearchPanel);
+const mapStateToProps = state => {
+  return {
+    busData: state.busData
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel);
