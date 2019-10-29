@@ -1,6 +1,13 @@
 import axios from 'axios';
 import * as actionTypes from '../constants/constants';
 
+const config = {
+  headers: {
+    'Accept' : 'application/vnd.busbud+json; version=2; profile=https://schema.busbud.com/v2/',
+    'X-Busbud-Token' : 'PARTNER_AHm3M6clSAOoyJg4KyCg7w'
+  }
+};
+
 const saveBusData = (data) => {
   return {
     type: actionTypes.SAVE_DATA,
@@ -16,12 +23,7 @@ const setFetchError = error => {
 };
 
 export const fetchData = (params, data) => {
-  const config = {
-    headers: {
-      'Accept' : 'application/vnd.busbud+json; version=2; profile=https://schema.busbud.com/v2/',
-      'X-Busbud-Token' : 'PARTNER_AHm3M6clSAOoyJg4KyCg7w'
-    }
-  };
+
   const url = `https://napi.busbud.com/x-departures/${params}`;
   return dispatch => {
     axios.get(url, config, data)

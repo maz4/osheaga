@@ -6,7 +6,7 @@ const reducer = (state = store, action) => {
     case actionTypes.SAVE_DATA: {
       return {
         ...state,
-        busData: action.payload
+        ...action.payload
       }
     }
     case actionTypes.SET_ERROR:
