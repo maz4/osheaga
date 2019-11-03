@@ -8,8 +8,8 @@ const ResultsContainer = (props) => {
   }
 
   function formatTime(date){
-    const newTime = new Date(date);
-    return newTime.getHours() + ':' + (newTime.getMinutes() < 10 ? '0' : '') + newTime.getMinutes();
+    const time = new Date(date);
+    return `${time.getHours()} : ${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`;
   }
 
   function formatDate(date){
@@ -31,14 +31,11 @@ const ResultsContainer = (props) => {
     <ul>
       {props.departures.map( departure => (
         <li key={departure.id}>
-          <p>Departure: {departureCity[0].name} - {props.locations.filter(elem => {
-            return elem.id === departure.origin_location_id
-          })[0].address[0]}</p>
-          <p>Destination: {destinationCity[0].name}</p>
+          <p>{departureCity && departureCity[0].name} - {props.locations.filter(elem => {
+            return elem.id === departure.origin_location_id;
+          })[0].address[0]} to {departureCity && destinationCity[0].name}</p>
+          <p>Departure Time: {formatTime(departure.departure_time)} - Arrival Time: {formatTime(departure.arrival_time)}</p>
           <p>Price: ${formatPrice(departure.prices.total)}</p>
-          <p>Departure Date: {formatDate(departure.departure_time)}</p> 
-          <p>Departure Time: {formatTime(departure.departure_time)}</p>
-          <p>Arrival Time: {formatTime(departure.arrival_time)}</p>
           <button>Select</button>
         </li>
       ))}
@@ -52,6 +49,6 @@ const mapStateToProps = state => ({
   destination_city_id: state.destination_city_id,
   origin_city_id: state.origin_city_id,
   locations: state.locations,
-})
+});
 
 export default connect(mapStateToProps)(ResultsContainer);

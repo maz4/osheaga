@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, fireEvent, wait } from '@testing-library/react';
 import axiosMock from 'axios';
-import Root from './Root';
+import Root from '../Root';
 
 afterEach( () => {
   axiosMock.get.mockClear();
@@ -13,7 +13,7 @@ const config = {
     'Accept' : 'application/test; version=0; profile=https://test.com/',
     'X-Busbud-Token' : 'test'
   }
-}
+};
 
 jest.mock('axios', () => {
 return {
@@ -130,7 +130,7 @@ return {
             lat: 40.749046,
             lon: -73.986303,
             geohash: "dr5ru6hu6"
-          }, //
+          },
           
         ],
         operators: [],
@@ -170,27 +170,25 @@ return {
         ttl: 600,
         is_valid_route: true
       }
-       }))
+     }))
   };
 });
 
 describe('render bus search app', () => {
-  const {queryAllByText, queryByLabelText, getByLabelText} = render(<Root />);
+  const {queryAllByText, queryByText, getByText } = render(<Root />);
 
-  it('should do the search for sudo populated fileds and render the results', async () => {
+  it('should show search information and get data after clicking search button', async () => {
 
-    expect(queryByLabelText(/departure/i)).toBeInTheDocument();
-    expect(queryByLabelText(/destination/i)).toBeInTheDocument();
-    expect(queryByLabelText(/date/i)).toBeInTheDocument();
-    expect(queryByLabelText(/return/i)).toBeInTheDocument();
+    expect(queryByText(/from:\snew\syork/i)).toBeInTheDocument();
+    expect(queryByText(/to:\smontreal/i)).toBeInTheDocument();
+    expect(queryByText(/date:\s2020-08-02/i)).toBeInTheDocument();
 
-    fireEvent.change(getByLabelText(/departure/i), {target: {value: 'New York'}});
-    expect(queryByLabelText(/departure/i).value).toBe('New York');
-
-    fireEvent.change(getByLabelText(/destination/i), {target: {value: 'Montréal'}});
-    expect(queryByLabelText(/destination/i).value).toBe('Montréal');
+    fireEvent.click(getByText(/search/i))
 
     await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
+
+    expect(queryByText('Departure time: 2020-08-02T13:00:00')).toBeInTheDocument();
+    expect(queryByText('Arrival time: 2020-08-02T14:00:00')).toBeInTheDocument();
 
   });
 
@@ -198,7 +196,9 @@ describe('render bus search app', () => {
     axiosMock.get.mockRejectedValueOnce({data: {error: 'test error'}});
     const {queryByText} = render(<Root />);
 
-    await wait( () => expect(queryByText(/ups something went wrong please refresh the page/i)).toBeInTheDocument());
+    fireEvent.click(getByText(/search/i))
+
+    await wait( () => expect(queryByText(/ups something went wrong, please refresh the page/i)).toBeInTheDocument());
   });
 
 });

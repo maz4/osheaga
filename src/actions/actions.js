@@ -22,16 +22,16 @@ const setFetchError = error => {
   };
 };
 
-export const fetchData = (params, data) => {
+export const fetchData = (params) => {
 
   const url = `https://napi.busbud.com/x-departures/${params}`;
   return dispatch => {
-    axios.get(url, config, data)
+    axios.get(url, config)
       .then( reposnse => {
         dispatch(saveBusData(reposnse.data));
       })
       .catch( error => {
         dispatch(setFetchError(error));
       });
-  }
-}
+  };
+};
