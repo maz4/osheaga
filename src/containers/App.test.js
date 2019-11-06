@@ -175,30 +175,30 @@ return {
 });
 
 describe('render bus search app', () => {
-  const {queryAllByText, queryByText, getByText } = render(<Root />);
 
   it('should show search information and get data after clicking search button', async () => {
+    const {queryAllByText, queryByText, getByText, debug } = render(<Root />);
 
-    expect(queryByText(/from:\snew\syork/i)).toBeInTheDocument();
-    expect(queryByText(/to:\smontreal/i)).toBeInTheDocument();
-    expect(queryByText(/date:\s2020-08-02/i)).toBeInTheDocument();
+    expect(queryByText('From: New York to Montreal')).toBeInTheDocument();
+    expect(queryByText('Date: 2020-08-02')).toBeInTheDocument();
 
     fireEvent.click(getByText(/search/i))
 
     await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
 
-    expect(queryByText('Departure time: 2020-08-02T13:00:00')).toBeInTheDocument();
-    expect(queryByText('Arrival time: 2020-08-02T14:00:00')).toBeInTheDocument();
+    expect(queryByText('Departure Time: 13:00')).toBeInTheDocument();
+    expect(queryByText('Arrival Time: 14:00')).toBeInTheDocument();
 
   });
 
   it('should show erorr messages if no buses found', async () => {
     axiosMock.get.mockRejectedValueOnce({data: {error: 'test error'}});
-    const {queryByText} = render(<Root />);
+    const {queryByText, getByText} = render(<Root />);
 
     fireEvent.click(getByText(/search/i))
 
-    await wait( () => expect(queryByText(/ups something went wrong, please refresh the page/i)).toBeInTheDocument());
+    await wait( () => expect(queryByText(/ups something went wrong please refresh the page/i)).toBeInTheDocument());
+
   });
 
 });

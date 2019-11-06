@@ -14,7 +14,9 @@ const SearchPanel = (props) => {
       city: 'Montreal'
     },
     date: '2020-08-02',
-    adults: 1
+    adults: 1,
+    seniors: 0,
+    children: 0
   };
 
   function submitHandler(){
@@ -24,7 +26,7 @@ const SearchPanel = (props) => {
 
   return (
     <div>
-      <h3>From: <strong>{search.departure.city}</strong> to <strong>{search.destination.city}</strong></h3>
+      <h3>From: {search.departure.city} to {search.destination.city}</h3>
       <p>Date: {search.date}</p>
       <p>Passengers: {search.adults}</p>
       <button onClick={submitHandler}>Search</button>
@@ -38,11 +40,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = state => {
-  return {
-    complete: state.complete,
-    departures: state.departures,
-  }
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel);
+export default connect(null, mapDispatchToProps)(SearchPanel);
