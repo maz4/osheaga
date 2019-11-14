@@ -4,7 +4,6 @@ import {store} from '../store/store';
 const reducer = (state = store, action) => {
   switch(action.type){
     case actionTypes.SAVE_DATA: {
-      console.log(action.payload);
       return {
         ...state,
         ...action.payload,
@@ -16,10 +15,11 @@ const reducer = (state = store, action) => {
         error: true,
         errorData: action.payload
       };
-    // case actionTypes.API:
-    //   return {
-    //     ...state,
-    //   };
+    case actionTypes.UPDATE_DEPARTURES:
+      return {
+        ...state,
+        ...action.payload
+      };
     default: 
       return state;
   }

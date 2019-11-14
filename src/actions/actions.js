@@ -1,24 +1,45 @@
 import * as actionTypes from '../constants/constants';
 
-export const saveData = (data) => {
+const saveData = payload => {
   return {
     type: actionTypes.SAVE_DATA,
-    payload: data
+    payload
   };
 };
 
-const setFetchError = error => {
+const setFetchError = payload => {
   return {
     type: actionTypes.SET_ERROR,
-    payload: error
+    payload
   };
+};
+
+const updateDepartures = payload => {
+  return {
+    type: actionTypes.UPDATE_DEPARTURES,
+    payload
+  }
 };
 
 export const fetchData = (params) => {
   return {
     type: actionTypes.API,
-    payload: params
+    payload: {
+      params,
+      onSuccess: saveData,
+      onFail: setFetchError,
+    }
   }
+};
 
-
+export const pollingData = params => {
+  return {
+    type: actionTypes.API,
+    payload: {
+      params,
+      delayTime: 2000,
+      onSuccess: updateDepartures,
+      onFail: setFetchError
+    }
+  }
 };
