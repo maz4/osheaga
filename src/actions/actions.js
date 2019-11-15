@@ -27,7 +27,7 @@ export const fetchData = (params) => {
     payload: {
       params,
       onSuccess: saveData,
-      onFail: setFetchError,
+      onFailure: setFetchError,
     }
   }
 };
@@ -39,7 +39,7 @@ export const pollingData = params => {
       params,
       delayTime: 2000,
       onSuccess: updateDepartures,
-      onFail: setFetchError
+      onFailure: setFetchError
     }
   }
 };
