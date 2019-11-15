@@ -2,12 +2,10 @@ import axios from 'axios';
 import {pollingData} from '../actions/actions';
 import * as actionTypes from '../constants/constants';
 
-const config = {
-    baseURL: 'https://napi.busbud.com/x-departures/',
-    headers: {
-        'Accept': 'application/vnd.busbud+json; version=2; profile=https://schema.busbud.com/v2/',
-        'X-Busbud-Token': 'PARTNER_AHm3M6clSAOoyJg4KyCg7w'
-    }
+axios.defaults.baseURL = 'https://napi.busbud.com/x-departures/';
+axios.defaults.headers = {
+    'Accept': 'application/vnd.busbud+json; version=2; profile=https://schema.busbud.com/v2/',
+    'X-Busbud-Token': 'PARTNER_AHm3M6clSAOoyJg4KyCg7w'
 };
 
 const delay = (delayTime) => {
@@ -23,14 +21,13 @@ const api = ({getState, dispatch}) => next => async action => {
         return;
     }
     const {params, delayTime, onSuccess, onFailure} = action.payload;
-    console.log('action.payload', action.payload);
 
     if (delayTime) {
         await delay(delayTime);
     }
 
     try {
-        const {data} = await axios.get(params, config);
+        const {data} = await axios.get(params);
 
         if (!data.complete) {
             const departureIndex = getState().departures.length + data.departures.length;
