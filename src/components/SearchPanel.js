@@ -16,12 +16,21 @@ const SearchPanel = (props) => {
     date: '2020-08-02',
     adults: 1,
     seniors: 0,
-    children: 0
+    children: 0,
+    currency: 'usd'
   };
 
   function submitHandler(){
-    const params = `${search.departure.geohash}/${search.destination.geohash}/${search.date}`;
-    props.fetchData(params);
+    const url = `${search.departure.geohash}/${search.destination.geohash}/${search.date}`;
+    props.fetchData({
+      url,
+      params: {
+        adults: search.adults,
+        seniors: search.seniors,
+        children: search.children,
+        currency: search.currency
+      }
+    });
   }
 
   return (

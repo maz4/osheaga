@@ -21,10 +21,11 @@ const updateDepartures = payload => {
   }
 };
 
-export const fetchData = (params) => {
+export const fetchData = ({url, params}) => {
   return {
     type: actionTypes.API,
     payload: {
+      url,
       params,
       onSuccess: saveData,
       onFailure: setFetchError,
@@ -32,11 +33,15 @@ export const fetchData = (params) => {
   }
 };
 
-export const pollingData = params => {
+export const pollingData = (url, params, index) => {
   return {
     type: actionTypes.API,
     payload: {
-      params,
+      url: url.indexOf('/poll') < 0 ? url + '/poll': url,
+      params: {
+        ...params,
+        index
+      },
       delayTime: 2000,
       onSuccess: updateDepartures,
       onFailure: setFetchError

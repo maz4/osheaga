@@ -20,19 +20,23 @@ const api = ({getState, dispatch}) => next => async action => {
     if (action.type !== actionTypes.API) {
         return;
     }
-    const {params, delayTime, onSuccess, onFailure} = action.payload;
+    const {url, params, delayTime, onSuccess, onFailure} = action.payload;
 
     if (delayTime) {
         await delay(delayTime);
     }
 
     try {
-        const {data} = await axios.get(params);
+        console.log(params)
+        const {data} = await axios.request({
+            method: 'get',
+            url,
+            params
+        });
 
         if (!data.complete) {
-            const departureIndex = getState().departures.length + data.departures.length;
-            const newPayload = params.indexOf('/poll') < 0 ? params + '/poll?index=' + departureIndex : params;
-            dispatch(pollingData((newPayload)));
+            const index = getState().departures.length + data.departures.length;
+            dispatch(pollingData(url, params, index));
         }
 
         dispatch(onSuccess(data))

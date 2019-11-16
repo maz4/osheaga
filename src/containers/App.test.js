@@ -3,18 +3,6 @@ import {render, fireEvent, wait, waitForElement } from '@testing-library/react';
 import axiosMock from 'axios';
 import Root from '../Root';
 
-afterEach( () => {
-  axiosMock.get.mockReset();
-});
-
-const config = {
-  method: 'GET',
-  headers: {
-    'Accept' : 'application/test; version=0; profile=https://test.com/',
-    'X-Busbud-Token' : 'test'
-  }
-};
-
 const origin_city_id = "375dd587-9001-acbd-84a4-683deda84183";
 const destination_city_id = "375dd587-9001-acbd-84a4-683dedfb933e";
 
@@ -93,20 +81,24 @@ const departures = [
 
 jest.mock('axios');
 
+afterEach( () => {
+  axiosMock.request.mockClear();
+});
+
 describe('render bus search app', () => {
 
   it('should show search information and get data after clicking search button', async () => {
-    axiosMock.get.mockImplementation( () =>
-      Promise.resolve({
-        data: {
-          origin_city_id,
-          destination_city_id,
-          cities,
-          locations,
-          departures,
-          complete: true
-        }
-      })
+    axiosMock.request.mockImplementation( () =>
+        Promise.resolve({
+          data: {
+            origin_city_id,
+            destination_city_id,
+            cities,
+            locations,
+            departures,
+            complete: true
+          }
+        })
     );
 
     const {queryAllByText, queryByText, getByText, debug } = render(<Root />);
@@ -123,18 +115,8 @@ describe('render bus search app', () => {
 
   });
 
-  it('should show erorr messages if no buses found', async () => {
-    axiosMock.get.mockRejectedValueOnce({data: {error: 'test error'}});
-    const {queryByText, getByText} = render(<Root />);
-
-    fireEvent.click(getByText(/search/i))
-
-    await wait( () => expect(queryByText(/ups something went wrong please refresh the page/i)).toBeInTheDocument());
-
-  });
-
   it('should poll data till complete is set to true', async () => {
-    axiosMock.get
+    axiosMock.request
       .mockImplementationOnce(() => {
         return Promise.resolve({
           data: {
@@ -154,8 +136,8 @@ describe('render bus search app', () => {
             destination_city_id,
             cities,
             locations,
-            departures: [departure[0]],
-            complete: true
+            departures: [departures[0]],
+            complete: false
           }
         })
       })
@@ -176,18 +158,42 @@ describe('render bus search app', () => {
 
     fireEvent.click(getByText(/search/i))
 
-    await wait(() => expect(axiosMock.get).toHaveBeenCalledTimes(1));
+    await wait(() => expect(axiosMock.request).toHaveBeenCalledTimes(1));
 
-    expect(axiosMock.get).toHaveBeenCalledWith('dr5reg/f25dvk/2020-08-02')
+    expect(axiosMock.request).toHaveBeenCalledWith(expect.objectContaining({
+      url: 'dr5reg/f25dvk/2020-08-02',
+      params: {adults: 1, children: 0, currency: 'usd', seniors: 0}
 
-    await wait(() => expect(axiosMock.get).toHaveBeenCalledTimes(2));
+    }));
 
-    expect(axiosMock.get).toHaveBeenLastCalledWith('dr5reg/f25dvk/2020-08-02/poll?index=1')
+    await wait(() => expect(axiosMock.request).toHaveBeenCalledTimes(2));
+
+    expect(axiosMock.request).toHaveBeenLastCalledWith(expect.objectContaining({
+      url: 'dr5reg/f25dvk/2020-08-02/poll',
+      params: {adults: 1, children: 0, currency: 'usd', seniors: 0, index: 0}
+    }));
+
+    await wait(() => expect(axiosMock.request).toHaveBeenCalledTimes(3));
+
+    expect(axiosMock.request).toHaveBeenLastCalledWith(expect.objectContaining({
+      url: 'dr5reg/f25dvk/2020-08-02/poll',
+      params: {adults: 1, children: 0, currency: 'usd', seniors: 0, index: 1}
+    }));
 
     await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
 
     expect(queryByText('Departure Time: 13:00')).toBeInTheDocument();
     expect(queryByText('Arrival Time: 14:00')).toBeInTheDocument();
+
+  });
+
+  it('should show erorr messages if no buses found', async () => {
+    axiosMock.request.mockRejectedValueOnce({data: {error: 'test error'}});
+    const {queryByText, getByText} = render(<Root />);
+
+    fireEvent.click(getByText(/search/i))
+
+    await wait( () => expect(queryByText(/ups something went wrong please refresh the page/i)).toBeInTheDocument());
 
   });
 
