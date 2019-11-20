@@ -1,13 +1,13 @@
 import * as actionTypes from '../constants/constants';
 
-const saveData = payload => {
+const saveLocationAndDepartures = payload => {
   return {
-    type: actionTypes.SAVE_DATA,
+    type: actionTypes.SAVE_LOCATIONS_DEPARTURES,
     payload
   };
 };
 
-const setFetchError = payload => {
+const setError = payload => {
   return {
     type: actionTypes.SET_ERROR,
     payload
@@ -27,8 +27,8 @@ export const fetchData = ({url, params}) => {
     payload: {
       url,
       params,
-      onSuccess: saveData,
-      onFailure: setFetchError,
+      onSuccess: saveLocationAndDepartures,
+      onFailure: setError
     }
   }
 };
@@ -44,7 +44,7 @@ export const pollingData = (url, params, index) => {
       },
       delayTime: 2000,
       onSuccess: updateDepartures,
-      onFailure: setFetchError
+      onFailure: setError
     }
   }
 };

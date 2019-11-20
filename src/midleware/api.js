@@ -27,7 +27,6 @@ const api = ({getState, dispatch}) => next => async action => {
     }
 
     try {
-        console.log(params)
         const {data} = await axios.request({
             method: 'get',
             url,
