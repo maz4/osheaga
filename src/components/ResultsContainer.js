@@ -13,23 +13,25 @@ const ResultsContainer = (props) => {
     return `${time.getHours()}:${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`;
   }
 
-  if(!departures) {
+  if(departures.length === 0) {
     return <p>Loading...</p>
   }
 
   return (
     <ul>
-      {departures.map( departure => (
-        <li key={departure.id}>
-          <p>{locations.filter(elem => {
-            return elem.id === departure.origin_location_id;
-          })[0].address[0]}</p>
-          <p>Departure Time: {formatTime(departure.departure_time)}</p>
-          <p>Arrival Time: {formatTime(departure.arrival_time)}</p>
-          <p>Price: ${formatPrice(departure.prices.total)}</p>
-          <button>Select</button>
-        </li>
-      ))}
+      {departures.map(departure => {
+        const departureLocation = locations.filter(elem => elem.id === departure.origin_location_id)[0].address[0];
+
+        return (
+          <li key={departure.id}>
+            <p>{departureLocation}</p>
+            <p>Departure Time: {formatTime(departure.departure_time)}</p>
+            <p>Arrival Time: {formatTime(departure.arrival_time)}</p>
+            <p>Price: ${formatPrice(departure.prices.total)}</p>
+            <button>Select</button>
+          </li>
+        )
+      })}
     </ul>
   );
 };
