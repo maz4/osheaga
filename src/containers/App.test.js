@@ -3,29 +3,7 @@ import {Provider} from 'react-redux';
 import {render as rtlRender, fireEvent, wait, waitForElement } from '@testing-library/react';
 import axiosMock from 'axios';
 import App from '../containers/App';
-import {store} from '../store/';
-
-const origin_city_id = "375dd587-9001-acbd-84a4-683deda84183";
-const destination_city_id = "375dd587-9001-acbd-84a4-683dedfb933e";
-
-const cities = [
-  {
-    id: "375dd587-9001-acbd-84a4-683deda84183",
-    geohash: "dr5reg",
-    image_url:
-        "https://busbud.imgix.net/city-hires/1474307214322-NewYork,NewYork,UnitedStates.jpg?h={height}&w={width}&auto=format,compress",
-    full_name: "New York, New York, United States",
-    locale: "en",
-  },
-  {
-    id: "375dd587-9001-acbd-84a4-683dedfb933e",
-    geohash: "f25dvk",
-    image_url:
-        "https://busbud.imgix.net/city-hires/1474307214311-Montreal,Quebec,Canada.jpg?h={height}&w={width}&auto=format,compress",
-    full_name: "Montreal, Quebec, Canada",
-    locale: "en",
-  }
-];
+import {storeConfig} from '../store/storeConfig';
 
 const locations = [
   {
@@ -85,9 +63,11 @@ jest.mock('axios');
 
 afterEach( () => {
   axiosMock.request.mockReset();
+
 });
 
 function render(component) {
+  const store = storeConfig();
   return rtlRender(
     <Provider store={store}>
       {component}
@@ -170,23 +150,23 @@ describe('render bus search app', () => {
       url: 'dr5reg/f25dvk/2020-08-02/poll',
       params: {adults: 1, children: 0, currency: 'usd', seniors: 0, index: 0}
     }));
-    //
-    // await wait(() => expect(axiosMock.request).toHaveBeenCalledTimes(3));
-    //
-    // expect(axiosMock.request).toHaveBeenLastCalledWith(expect.objectContaining({
-    //   url: 'dr5reg/f25dvk/2020-08-02/poll',
-    //   params: {adults: 1, children: 0, currency: 'usd', seniors: 0, index: 1}
-    // }));
 
-    // expect(queryAllByText(/select/i)).toHaveLength(3)
-    // await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
-    //
-    // expect(queryByText('Departure Time: 13:00')).toBeInTheDocument();
-    // expect(queryByText('Arrival Time: 14:00')).toBeInTheDocument();
+    await wait(() => expect(axiosMock.request).toHaveBeenCalledTimes(3));
+
+    expect(axiosMock.request).toHaveBeenLastCalledWith(expect.objectContaining({
+      url: 'dr5reg/f25dvk/2020-08-02/poll',
+      params: {adults: 1, children: 0, currency: 'usd', seniors: 0, index: 1}
+    }));
+
+    expect(queryAllByText(/select/i)).toHaveLength(3)
+    await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
+
+    expect(queryByText('Departure Time: 13:00')).toBeInTheDocument();
+    expect(queryByText('Arrival Time: 14:00')).toBeInTheDocument();
 
   });
 
-  it.skip('should show erorr messages if no buses found', async () => {
+  it('should show erorr messages if no buses found', async () => {
     axiosMock.request.mockRejectedValueOnce({data: {error: 'test error'}});
     const {queryByText, getByText} = render(<App />);
 

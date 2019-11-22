@@ -21,7 +21,6 @@ const api = ({getState, dispatch}) => next => async action => {
         return;
     }
     const {url, params, delayTime, onSuccess, onFailure} = action.payload;
-    console.log("action.payload", action.payload)
     if (delayTime) {
         await delay(delayTime);
     }
