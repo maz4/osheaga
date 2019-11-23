@@ -2,7 +2,7 @@
 
 .App {
     margin: 0 auto;
-    max-width: 76.8rem;
+    max-width: 68rem;
 }
 
 @media small {
@@ -10,4 +10,3 @@
         padding-top: 6rem;
         padding-bottom: 2rem;
     }
-}
