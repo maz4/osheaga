@@ -5,7 +5,7 @@
     max-width: 76.8rem;
 }
 
-@media  {
+@media small {
     .App {
         padding-top: 6rem;
         padding-bottom: 2rem;
