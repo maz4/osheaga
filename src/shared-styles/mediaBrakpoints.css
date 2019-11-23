@@ -1,0 +1,4 @@
+@value small: (min-width: 680px);
+@value medium: (min-width: 768;);
+@value large: (min-width: 992;);
+@value v-large: (min-width: 1200px);

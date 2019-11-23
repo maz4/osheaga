@@ -1,0 +1,14 @@
+@import '~normalize.css';
+
+
+
+html {
+    font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    font-size: 10px;
+    margin: 0;
+
+}
+
+p {
+    font-size: 1.6rem;
+}

@@ -1,0 +1,13 @@
+@value small from  '../shared-styles/mediaBrakpoints.css';
+
+.App {
+    margin: 0 auto;
+    max-width: 76.8rem;
+}
+
+@media  {
+    .App {
+        padding-top: 6rem;
+        padding-bottom: 2rem;
+    }
+}

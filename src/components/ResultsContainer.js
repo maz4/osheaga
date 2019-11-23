@@ -14,7 +14,7 @@ const ResultsContainer = (props) => {
   }
 
   if(departures.length === 0) {
-    return <p>Loading...</p>
+    return null;
   }
 
   return (

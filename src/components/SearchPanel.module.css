@@ -1,0 +1,60 @@
+@value small from '../shared-styles/mediaBrakpoints.css';
+
+.SearchPanel {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background: linear-gradient(#127ccb, #5b8fa8);
+}
+
+.SearchPanel__Header {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.SearchPanel__Date {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.SearchPanel__Passangers {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.button {
+    composes: button from '../shared-styles/button.css';
+    color: #fff;
+    width: 100%;
+}
+
+@media small {
+    .SearchPanel {
+        padding-left: 10%;
+        padding-right: 10%;
+        padding-top: 10rem;
+        padding-bottom: 10rem;
+    }
+
+    .SearchPanel__Header {
+        font-size: 3.6rem;
+        margin-bottom: 3rem;
+    }
+
+    .SearchPanel__Date,
+    .SearchPanel__Passangers {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .button {
+        width: auto;
+        padding: 1rem 3rem;
+    }
+}
