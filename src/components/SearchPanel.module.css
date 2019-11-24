@@ -1,4 +1,6 @@
-@value small from '../shared-styles/mediaBrakpoints.css';
+@value small from '../shared-styles/mediaBreakpoints.css';
+@value medium from '../shared-styles/mediaBreakpoints.css';
+@value large from '../shared-styles/mediaBreakpoints.css';
 
 .SearchPanel {
     padding-left: 5%;

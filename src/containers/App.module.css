@@ -1,12 +1,24 @@
-@value small from  '../shared-styles/mediaBrakpoints.css';
+@value small from  '../shared-styles/mediaBreakpoints.css';
+@value medium from  '../shared-styles/mediaBreakpoints.css';
+@value large from  '../shared-styles/mediaBreakpoints.css';
 
 .App {
     margin: 0 auto;
-    max-width: 68rem;
+    min-width: 38rem;
 }
 
-@media small {
+@media medium {
     .App {
         padding-top: 6rem;
         padding-bottom: 2rem;
+        padding-left: 4%;
+        padding-right: 4%;
+        max-width: 76.8rem;
     }
+}
+
+@media large {
+    .App {
+        max-width: 99rem;
+    }
+}

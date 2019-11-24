@@ -1,0 +1,25 @@
+.ResultsList {
+    margin: 0;
+    padding-top: 2rem;
+    padding-bottom: 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    list-style: none;
+}
+
+.ResultsList__element {
+    position: relative;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.5);
+}
+
+.button {
+    composes: button from '../shared-styles/button.css';
+    position: absolute;
+    bottom: 2rem;
+    right: 3%;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}

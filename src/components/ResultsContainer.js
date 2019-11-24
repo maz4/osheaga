@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styles from './ResultsContainer.module.css';
 
 const ResultsContainer = (props) => {
   const {departures, locations } = props;
@@ -18,17 +19,17 @@ const ResultsContainer = (props) => {
   }
 
   return (
-    <ul>
+    <ul className={styles.ResultsList}>
       {departures.map(departure => {
         const departureLocation = locations.filter(elem => elem.id === departure.origin_location_id)[0].address[0];
 
         return (
-          <li key={departure.id}>
-            <p>{departureLocation}</p>
+          <li className={styles.ResultsList__element} key={departure.id}>
+            <p>Departure Location: {departureLocation}</p>
             <p>Departure Time: {formatTime(departure.departure_time)}</p>
             <p>Arrival Time: {formatTime(departure.arrival_time)}</p>
             <p>Price: ${formatPrice(departure.prices.total)}</p>
-            <button>Select</button>
+            <button className={styles.button}>Select</button>
           </li>
         )
       })}

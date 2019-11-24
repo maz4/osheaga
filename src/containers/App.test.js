@@ -90,7 +90,8 @@ describe('render bus search app', () => {
 
     const {queryAllByText, queryByText, getByText} = render(<App />);
 
-    expect(queryByText('From: New York to Montreal')).toBeInTheDocument();
+    expect(queryByText('Bus From: New York')).toBeInTheDocument();
+    expect(queryByText('To: Montreal')).toBeInTheDocument();
     expect(queryByText('Date: 2020-08-02')).toBeInTheDocument();
 
     fireEvent.click(getByText(/search/i))
