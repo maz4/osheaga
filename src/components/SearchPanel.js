@@ -1,38 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { fetchData } from '../actions/actions';
 import styles from './SearchPanel.module.css';
 
 const SearchPanel = (props) => {
-
-  const search = {
-    departure: {
-      geohash: 'dr5reg',
-      city: 'New York'
-    },
-    destination: {
-      geohash: 'f25dvk',
-      city: 'Montreal'
-    },
-    date: '2020-08-02',
-    adults: 1,
-    seniors: 0,
-    children: 0,
-    currency: 'usd'
-  };
-
-  function submitHandler(){
-    const url = `${search.departure.geohash}/${search.destination.geohash}/${search.date}`;
-    props.fetchData({
-      url,
-      params: {
-        adults: search.adults,
-        seniors: search.seniors,
-        children: search.children,
-        currency: search.currency
-      }
-    });
-  }
+  const {search, submitHandler} = props;
 
   return (
     <div className={styles.SearchPanel}>
@@ -45,11 +15,4 @@ const SearchPanel = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchData: (params) => dispatch(fetchData(params)),
-  };
-};
-
-
-export default connect(null, mapDispatchToProps)(SearchPanel);
+export default SearchPanel;
