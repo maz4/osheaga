@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import SearchPanel from '../components/SearchPanel';
-import ResultsContainer from '../components/ResultsContainer';
+import ResultsList from '../components/ResultsList';
 import ErrorBoundry from './ErrorBoundry'
 import styles from './App.module.css';
 import {fetchData} from "../actions/actions";
@@ -40,11 +40,16 @@ function App(props) {
     <div className={styles.App}>
       <SearchPanel search={search} submitHandler={submitHandler}/>
       <ErrorBoundry>
-        <ResultsContainer />
+        <ResultsList {...props}/>
       </ErrorBoundry>
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  departures: state.departures,
+  locations: state.locations,
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -52,4 +57,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
