@@ -1,6 +1,12 @@
 
 # Osheaga
 
+Oshega is a website which searches for a bus connection in the prespecified locations.
+Fetching the data is split into multiple requests which are depended on the server response.
+If in the received data field "complete" is false the website will resend request into specified 
+/poll address. It will also check the index of departures array to fetch only the data which is new on the server.
+When "complete" field has the value true the fetching data is complete.
+
 App to use API to fetch and show busses for the Osheaga festival from New York.
 
 ## Available Scripts
