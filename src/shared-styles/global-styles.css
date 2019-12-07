@@ -12,3 +12,10 @@ html {
 p {
     font-size: 1.6rem;
 }
+
+label {
+    font-size: 1.6rem;
+}
+input {
+    font-size: 1.6rem;
+}

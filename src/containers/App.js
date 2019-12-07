@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux'
 import SearchPanel from '../components/SearchPanel';
 import ResultsList from '../components/ResultsList';
@@ -7,7 +7,24 @@ import styles from './App.module.css';
 import {fetchData} from "../actions/actions";
 
 function App(props) {
-  const search = {
+  // const search = {
+  //   departure: {
+  //     geohash: 'dr5reg',
+  //     city: 'New York'
+  //   },
+  //   destination: {
+  //     geohash: 'f25dvk',
+  //     city: 'Montreal'
+  //   },
+  //   date: '2020-08-02',
+  //   adults: 1,
+  //   seniors: 0,
+  //   children: 0,
+
+  //   currency: 'usd'
+  // };
+
+  const [search, setSearch] = useState({
     departure: {
       geohash: 'dr5reg',
       city: 'New York'
@@ -21,7 +38,19 @@ function App(props) {
     seniors: 0,
     children: 0,
     currency: 'usd'
-  };
+  });
+
+  function updatePassengers(event) {
+    const passengerType = event.target.id;
+    const value = event.target.value;
+    if(parseInt(value) < 0 ){
+      return;
+    }
+    setSearch({
+      ...search,
+      [passengerType]: value
+    });
+  }
 
   function submitHandler(){
     const url = `${search.departure.geohash}/${search.destination.geohash}/${search.date}`;
@@ -38,7 +67,7 @@ function App(props) {
 
   return (
     <div className={styles.App}>
-      <SearchPanel search={search} submitHandler={submitHandler}/>
+      <SearchPanel search={search} submitHandler={submitHandler} updatePassengers={updatePassengers}/>
       <ErrorBoundry>
         <ResultsList {...props}/>
       </ErrorBoundry>

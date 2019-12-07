@@ -1,9 +1,10 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {render as rtlRender, fireEvent, wait, waitForElement } from '@testing-library/react';
+import {render as rtlRender, fireEvent, wait } from '@testing-library/react';
 import axiosMock from 'axios';
 import App from '../containers/App';
 import {storeConfig} from '../store/storeConfig';
+import SearchPanel from "../components/SearchPanel";
 
 const locations = [
   {
@@ -76,6 +77,39 @@ function render(component) {
 }
 
 describe('render bus search app', () => {
+
+  it('should accept data, passengers', async () => {
+    axiosMock.request.mockImplementation( () =>
+      Promise.resolve({
+        data: {
+          locations,
+          departures,
+          complete: true
+        }
+      })
+    );
+
+    const { getByLabelText, getByText, queryAllByText, queryByText } = render(<App />);
+
+    const dateInput = getByLabelText(/date/i);
+    const adults = getByLabelText(/adults/i);
+    const seniors = getByLabelText(/seniors/i);
+    const children = getByLabelText(/children/i);
+    const searchBtn = getByText(/search/i);
+
+    fireEvent.change(dateInput, {target: { value: '2020-08-02'}});
+    fireEvent.change(adults, {target: { value: '1'}});
+    fireEvent.change(seniors, {target: { value: '0'}});
+    fireEvent.change(children, {target: { value: '0'}});
+
+    fireEvent.click(searchBtn)
+
+    await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
+
+    expect(queryByText('Departure Time: 13:00')).toBeInTheDocument();
+    expect(queryByText('Arrival Time: 14:00')).toBeInTheDocument();
+
+  });
 
   it('should show search information and get data after clicking search button', async () => {
     axiosMock.request.mockImplementation( () =>

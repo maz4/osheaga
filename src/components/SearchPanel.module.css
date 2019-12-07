@@ -30,6 +30,19 @@
     color: #fff;
 }
 
+.SearchPanel__Label {
+    display: block;
+    width: 40%;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.SearchPanel__Input {
+    display: block;
+    width: 40%;
+    margin-bottom: 1rem;
+}
+
 .button {
     composes: button from '../shared-styles/button.css';
     color: #fff;
