@@ -78,39 +78,6 @@ function render(component) {
 
 describe('render bus search app', () => {
 
-  it('should accept data, passengers', async () => {
-    axiosMock.request.mockImplementation( () =>
-      Promise.resolve({
-        data: {
-          locations,
-          departures,
-          complete: true
-        }
-      })
-    );
-
-    const { getByLabelText, getByText, queryAllByText, queryByText } = render(<App />);
-
-    const dateInput = getByLabelText(/date/i);
-    const adults = getByLabelText(/adults/i);
-    const seniors = getByLabelText(/seniors/i);
-    const children = getByLabelText(/children/i);
-    const searchBtn = getByText(/search/i);
-
-    fireEvent.change(dateInput, {target: { value: '2020-08-02'}});
-    fireEvent.change(adults, {target: { value: '1'}});
-    fireEvent.change(seniors, {target: { value: '0'}});
-    fireEvent.change(children, {target: { value: '0'}});
-
-    fireEvent.click(searchBtn)
-
-    await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
-
-    expect(queryByText('Departure Time: 13:00')).toBeInTheDocument();
-    expect(queryByText('Arrival Time: 14:00')).toBeInTheDocument();
-
-  });
-
   it('should show search information and get data after clicking search button', async () => {
     axiosMock.request.mockImplementation( () =>
         Promise.resolve({
@@ -122,13 +89,29 @@ describe('render bus search app', () => {
         })
     );
 
-    const {queryAllByText, queryByText, getByText} = render(<App />);
+    const { getByLabelText, getByText, queryAllByText, queryByText } = render(<App />);
+
+    const dateInput = getByLabelText(/date/i);
+    const adults = getByLabelText(/adults/i);
+    const seniors = getByLabelText(/seniors/i);
+    const children = getByLabelText(/children/i);
+    const searchBtn = getByText(/search/i);
 
     expect(queryByText('Bus From: New York')).toBeInTheDocument();
     expect(queryByText('To: Montreal')).toBeInTheDocument();
     expect(queryByText('Date: 2020-08-02')).toBeInTheDocument();
 
-    fireEvent.click(getByText(/search/i))
+    fireEvent.change(dateInput, {target: { value: '2020-08-02'}});
+    fireEvent.change(adults, {target: { value: '1'}});
+    fireEvent.change(seniors, {target: { value: '0'}});
+    fireEvent.change(children, {target: { value: '0'}});
+
+    expect(dateInput.value).toBe('2020-08-02');
+    expect(adults.value).toBe('1');
+    expect(seniors.value).toBe('0');
+    expect(children.value).toBe('0');
+
+    fireEvent.click(searchBtn);
 
     await wait( () => expect(queryAllByText(/select/i)).toHaveLength(3));
 
