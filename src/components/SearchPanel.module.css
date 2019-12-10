@@ -39,6 +39,7 @@
 
 .SearchPanel__Input {
     display: block;
+    min-height: 2.2rem;
     width: 100%;
     margin-bottom: 1rem;
 }
@@ -68,9 +69,24 @@
         margin-bottom: 2rem;
     }
 
+    .SearchPanel__Inputs {
+        display: flex;
+    }
+
+    .SearchPanel__InputWrapper{
+        flex-basis: 23%;
+        width: 23%;
+        margin-right: 1.9rem;
+    }
+
+    .SearchPanel__InputWrapper:last-child {
+        margin-right: 0;
+    }
+
     .SearchPanel__Label,
     .SearchPanel__Input {
-        width: 40%;
+        width: 100%;
+        line-height: 1.8rem;
     }
 
     .button {

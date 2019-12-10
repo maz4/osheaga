@@ -11,18 +11,28 @@ const SearchPanel = (props) => {
       <p className={styles.SearchPanel__Date}>Date: {search.date}</p>
       <p className={styles.SearchPanel__Passangers}>Passengers: {search.adults}</p>
 
-      <label className={styles.SearchPanel__Label} htmlFor="date">Date</label>
-      <input className={styles.SearchPanel__Input} type="date" id="date" value={search.date} onChange={updatePassengers}/>
+      <div className={styles.SearchPanel__Inputs}>
 
-      <label className={styles.SearchPanel__Label} htmlFor="adults">Adults</label>
-      <input className={styles.SearchPanel__Input} type="number" id="adults" value={search.adults} onChange={updatePassengers}/>
+        <div className={styles.SearchPanel__InputWrapper}>
+          <label className={styles.SearchPanel__Label} htmlFor="date">Date</label>
+          <input className={styles.SearchPanel__Input} type="date" id="date" value={search.date} onChange={updatePassengers}/>
+        </div>
 
-      <label className={styles.SearchPanel__Label} htmlFor="seniors">Seniors</label>
-      <input className={styles.SearchPanel__Input} type="number" id="seniors" value={search.seniors} onChange={updatePassengers}/>
+        <div className={styles.SearchPanel__InputWrapper}>
+          <label className={styles.SearchPanel__Label} htmlFor="adults">Adults</label>
+          <input className={styles.SearchPanel__Input} type="number" id="adults" value={search.adults} onChange={updatePassengers}/>
+        </div>
+        <div className={styles.SearchPanel__InputWrapper}>
+          <label className={styles.SearchPanel__Label} htmlFor="seniors">Seniors</label>
+          <input className={styles.SearchPanel__Input} type="number" id="seniors" value={search.seniors} onChange={updatePassengers}/>
+        </div>
 
-      <label className={styles.SearchPanel__Label} htmlFor="children">Children</label>
-      <input className={styles.SearchPanel__Input} type="number" id="children" value={search.children} onChange={updatePassengers}/>
+        <div className={styles.SearchPanel__InputWrapper}>
+          <label className={styles.SearchPanel__Label} htmlFor="children">Children</label>
+          <input className={styles.SearchPanel__Input} type="number" id="children" value={search.children} onChange={updatePassengers}/>
+        </div>
 
+      </div>
 
       <button className={styles.button} onClick={submitHandler}>Search</button>
     </div>
